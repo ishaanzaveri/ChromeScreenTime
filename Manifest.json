@@ -3,13 +3,13 @@
   "version": "1.0",
   "description": "This program allows you to track screen time and sends warning notifications accordingly.",
   "browser_action" : {
-    "default_popup": "index.html"
+    "default_popup": ["background.html"]
   },
   "background": {
-    "scripts": ["TimeManager.js"],
+    "scripts": ["TimeManager.js", "firebase.js"],
     "persistent": false
   },
-  "permissions" : ["tabs"],
-  "content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self'",
+  "permissions" : ["tabs", "<all_urls>", "activeTab"],
+  "content_security_policy": "script-src 'self' https://www.gstatic.com/ https://*.firebaseio.com https://www.googleapis.com; object-src 'self'",
   "manifest_version": 2
 }
