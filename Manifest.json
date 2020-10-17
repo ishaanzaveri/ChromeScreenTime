@@ -1,0 +1,10 @@
+{
+  "name": "Screen Time Chrome Web Extension",
+  "version": "1.0",
+  "description": "This program allows you to track screen time and sends warning notifications accordingly.",
+  "background": {
+    "scripts": ["background.js"],
+    "persistent": false
+  },
+  "manifest_version": 2
+}
