@@ -1,6 +1,8 @@
+var visited = [];
 chrome.tabs.onUpdated.addListener((tabID, changeDetails, tab) =>
 {
   console.log(tab);
+  //visited.push(tab)
 });
 var visited = [];
 chrome.tabs.onActivated.addListener(() => {
