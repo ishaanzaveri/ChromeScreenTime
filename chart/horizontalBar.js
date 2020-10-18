@@ -1,13 +1,13 @@
 var ListDict;
 
 function updateGraph () {
-	chrome.storage.local.get(["data"], (data) => {
-		if (data !== undefined) {
-		  ListDict = data;
+	chrome.storage.local.get("data", (data) => {
+		if (data.data !== undefined) {
+		  ListDict = data.data;
 		}
-	  });
-	  var webNames;
-	  var webTimes;
+	  
+	  var webNames = [];
+	  var webTimes = [];
 	  if(ListDict !== undefined){
 		for (var key in ListDict) {
 			webNames.push(key);
@@ -31,6 +31,8 @@ function updateGraph () {
 	  } else {
 		  console.log("No data")
 	  }
-	  
+	  console.log(ListDict);
+	});	  
 }
+updateGraph();
 setInterval(updateGraph,5000);

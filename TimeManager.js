@@ -4,9 +4,9 @@ var currentTabId;
 var currentUrl;
 var gTab;
 var onUpdateUrl;
-chrome.storage.local.get(["data"], (data) => {
-  if (data !== undefined) {
-    ListDict = data;
+chrome.storage.local.get("data", (data) => {
+  if (data.data !== undefined) {
+    ListDict = data.data;
   }
 });
 
@@ -65,7 +65,7 @@ function endTime (url) {
       ListDict[currentUrl] += timeDifference/1000; // adding
     }
   chrome.storage.local.set({data:ListDict}, () => {});
-
+  chrome.tabs.sendMessage(currentTabId,"Hello");
   console.log(ListDict);
 }
   startTime(url);
