@@ -2,7 +2,7 @@ var visited = [];
 //var visitedParsed = [];
 let counter = 0;
 var ogList = [];
-var ListDict;
+var ListDict = {};
 var currentTime;
 var currentTabId;
 var currentUrl;
@@ -27,28 +27,34 @@ chrome.tabs.onUpdated.addListener((tabId, changeDetails, tab) => {
   //   }
   //   counter++;
   // }
+  if (tabId !== currentTabId) {
+    return;
+  }
   if (onUpdateUrl === undefined || onUpdateUrl === "newtab") {
     onUpdateUrl = tab.url.split('/')[2]; // later
   } else if (tab.url.split('/')[2] !== onUpdateUrl) {
-    if (ListDict === undefined) {
+    onUpdateUrl = tab.url.split('/')[2]; // later
+    if (currentTime === undefined) {
       startTime(tab.url);
     } else {
       endTime(tab.url);
     }
-  } 
+  }
 });
 
-chrome.tabs.onActivated.addListener((tabId, windowId) => {
+chrome.tabs.onActivated.addListener(({tabId, windowId}) => {
   //var tabUrl = chrome.tabs.getTabId();
-  chrome.tabs.getSelected(null, (tab) => {
+  currentTabId = tabId;
+  chrome.tabs.get(tabId, function(tab) {
     gTab = tab;
+    console.log(gTab);
+    if (currentTime === undefined) {
+      startTime(gTab.url);
+    } else {
+      endTime(gTab.url);
+    }
   });
-  console.log(gTab);
-  if (ListDict === undefined) {
-    startTime(gTab.url);
-  } else {
-    endTime(gTab.url);
-  }
+
 });
 
 // chrome.windows.onFocusChanged.addListener(window => {
@@ -79,7 +85,7 @@ function startTime (url) {
 
 function endTime (url) {
   var timeDifference = Date.now() - currentTime;
-  if(ListDict[currentUrl] == undefined) {
+  if(ListDict[currentUrl] === undefined) {
     ListDict[currentUrl] = timeDifference/1000; //initialization
   } else {
     ListDict[currentUrl] += timeDifference/1000; // adding
