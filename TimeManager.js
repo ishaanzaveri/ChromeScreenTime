@@ -9,6 +9,17 @@ var currentUrl;
 var gTab;
 var onUpdateUrl;
 
+function parseUrl(url) {
+  if (url === "") {
+    console.log("probably just an empty string");
+    return "";
+  }
+  console.log("Parse url: "+ url);
+  if (url.startsWith("chrome")) {
+    return "";
+  }
+  return (new URL(url)).hostname;
+}
 chrome.tabs.onUpdated.addListener((tabId, changeDetails, tab) => {
   // if (tab.status === "complete"){
   //   gTab = tab;
@@ -31,9 +42,9 @@ chrome.tabs.onUpdated.addListener((tabId, changeDetails, tab) => {
     return;
   }
   if (onUpdateUrl === undefined || onUpdateUrl === "newtab") {
-    onUpdateUrl = tab.url.split('/')[2]; // later
-  } else if (tab.url.split('/')[2] !== onUpdateUrl) {
-    onUpdateUrl = tab.url.split('/')[2]; // later
+    onUpdateUrl = parseUrl(tab.url);
+  } else if (parseUrl(tab.url) !== onUpdateUrl) {
+    onUpdateUrl = parseUrl(tab.url);
     if (currentTime === undefined) {
       startTime(tab.url);
     } else {
@@ -80,16 +91,18 @@ chrome.tabs.onActivated.addListener(({tabId, windowId}) => {
 
 function startTime (url) {
   currentTime = Date.now();
-  currentUrl = url.split('/')[2];
+  currentUrl = parseUrl(url);
 }
 
 function endTime (url) {
   var timeDifference = Date.now() - currentTime;
-  if(ListDict[currentUrl] === undefined) {
+  if (currentUrl !== "") {
+  if (ListDict[currentUrl] === undefined) {
     ListDict[currentUrl] = timeDifference/1000; //initialization
   } else {
     ListDict[currentUrl] += timeDifference/1000; // adding
   }
   console.log(ListDict);
+}
   startTime(url);
 }
