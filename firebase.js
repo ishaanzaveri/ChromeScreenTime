@@ -14,14 +14,6 @@ var firebaseConfig = {
 
   var db = firebase.firestore();
 
-  db.collection("users").doc("Brian").set({
-      website: ["youtube.com", "netflix.com", "google.com"]
-  })
-  .then(function() {
-      console.log("Document successfully written!");
-  })
-  .catch(function(error) {
-      console.error("Error writing document: ", error);
-  });
+
 
   
