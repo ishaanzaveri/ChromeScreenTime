@@ -8,6 +8,11 @@ var currentTabId;
 var currentUrl;
 var gTab;
 var onUpdateUrl;
+chrome.storage.local.get(["data"], (data) => {
+  if (data !== undefined) {
+    ListDict = data;
+  }
+});
 
 function parseUrl(url) {
   if (url === "") {
@@ -97,11 +102,13 @@ function startTime (url) {
 function endTime (url) {
   var timeDifference = Date.now() - currentTime;
   if (currentUrl !== "") {
-  if (ListDict[currentUrl] === undefined) {
-    ListDict[currentUrl] = timeDifference/1000; //initialization
-  } else {
-    ListDict[currentUrl] += timeDifference/1000; // adding
-  }
+    if (ListDict[currentUrl] === undefined) {
+      ListDict[currentUrl] = timeDifference/1000; //initialization
+    } else {
+      ListDict[currentUrl] += timeDifference/1000; // adding
+    }
+  chrome.storage.local.set({data:ListDict}, () => {});
+
   console.log(ListDict);
 }
   startTime(url);
