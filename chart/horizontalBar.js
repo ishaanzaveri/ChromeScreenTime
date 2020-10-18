@@ -5,25 +5,14 @@ function updateGraph () {
 		if (data.data !== undefined) {
 		  ListDict = data.data;
 		}
-		var tempNames = [];
-	  	var tempTimes = [];
-	  	var webNames = [];
-	  	var webTimes = [];
+
+	  var webNames = [];
+	  var webTimes = [];
 	  if(ListDict !== undefined){
 		for (var key in ListDict) {
 			webNames.push(key);
 			webTimes.push(ListDict[key]);
 		}
-		for (let index = 0; index < 5; index++) {
-			var max = Math.max(tempTimes); 
-			tempNames[i] = webNames[webTimes.findIndex(max)];
-			tempTimes[i] = webTimes[webTimes.findIndex(max)];
-			for (let index = 0; index < array.length; index++) {
-				const element = array[index];
-				
-			}
-		}
-		
 	  let ctx = document.getElementById('myChart').getContext('2d');
 				  let chart = new Chart(ctx, {
 					  type: 'horizontalBar',
@@ -31,9 +20,9 @@ function updateGraph () {
 						  labels: webNames,
 						  datasets: [
 							  {
-								  label: 'My First dataset',
-								  backgroundColor: 'rgb(255, 99, 132)',
-								  borderColor: 'rgb(255, 99, 132)',
+								  label: 'Screen Time',
+								  backgroundColor: 'rgb(19, 176, 233)',
+								  borderColor: 'rgb(200, 200, 200)',
 								  data: webTimes,
 							  },
 						  ],
@@ -43,7 +32,7 @@ function updateGraph () {
 		  console.log("No data")
 	  }
 	  console.log(ListDict);
-	});	  
+	});
 }
 updateGraph();
 setInterval(updateGraph,5000);
