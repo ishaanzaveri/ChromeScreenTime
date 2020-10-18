@@ -1,6 +1,7 @@
 var visited = [];
 var visitedParsed = [];
 let counter = 0;
+var ogList = []; 
 chrome.tabs.onUpdated.addListener((tabId, changeDetails, tab) => {
   console.log("Before");
   if (tab.status === "complete"){
@@ -8,8 +9,10 @@ chrome.tabs.onUpdated.addListener((tabId, changeDetails, tab) => {
     var editedUrl = visited[counter].split("/");
     if (editedUrl[2] !== "newtab") {
       visitedParsed.push(editedUrl[2]);
-    } else {
-      console.log("this is new tab");
+      for (var i = 0; i < visitedParsed.length; i++) {
+        ogList.push(editedUrl[2]);
+        if (visitedParsed[i] !== ogList)
+      }
     }
     console.log(visitedParsed);
     counter++;
