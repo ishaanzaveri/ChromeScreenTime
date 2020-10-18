@@ -3,21 +3,19 @@ var visitedParsed = [];
 let counter = 0;
 var ogList = []; 
 chrome.tabs.onUpdated.addListener((tabId, changeDetails, tab) => {
-  console.log("Before");
   if (tab.status === "complete"){
     visited.push(tab.url);
     var editedUrl = visited[counter].split("/");
     if (editedUrl[2] !== "newtab") {
       visitedParsed.push(editedUrl[2]);
-      for (var i = 0; i < visitedParsed.length; i++) {
+      if (!ogList.includes(editedUrl[2])) {
         ogList.push(editedUrl[2]);
-        if (visitedParsed[i] !== ogList)
       }
     }
-    console.log(visitedParsed);
+    console.log(ogList);
+    //console.log(visitedParsed);
     counter++;
   }
-  console.log("After");
 });
 
 
