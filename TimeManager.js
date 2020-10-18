@@ -1,13 +1,14 @@
 var visited = [];
 var visitedParsed = [];
 let counter = 0;
-var ogList = []; 
+var ogList = [];
 var ListDict = {};
 var currenttime;
 var gTab;
+
 chrome.tabs.onUpdated.addListener((tabId, changeDetails, tab) => {
-  gTab = tab;
   if (tab.status === "complete"){
+    gTab = tab;
     visited.push(tab.url);
     var editedUrl = visited[counter].split("/");
     if (editedUrl[2] !== "newtab") {
@@ -27,17 +28,17 @@ chrome.tabs.onUpdated.addListener((tabId, changeDetails, tab) => {
 
 
 chrome.windows.onFocusChanged.addListener(window => {
-  counter = 0; 
-  if(gTab != undefined &&  ( window === -1 || window === 1 )) {
+  counter = 0;
+  if(gTab != undefined &&  ( window === -1 || window === 1 ) && gTab.status === "complete") {
     var editedUrl = gTab.url.split("/");
-  
+
   // Date.now() - unix time
   if (window === 1 ){
     console.log(Date.now());
     currenttime = Date.now();
   }
   if (window === -1) {
-    ListDict[editedUrl[2]] = (Date.now() - currenttime); 
+    ListDict[editedUrl[2]] = (Date.now() - currenttime);
     if (ListDict[editedUrl[2]] === NaN) {
       console.log(editedUrl[2] + " is NaN " + currenttime)
     }
@@ -46,5 +47,3 @@ chrome.windows.onFocusChanged.addListener(window => {
   gTab = undefined;
 }
 });
-
- 
