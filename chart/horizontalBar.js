@@ -18,8 +18,9 @@ function updateGraph () {
 		for (var key in ListDict) {
 			if (ListDict[key] === webTimes[counter]) {
 				webNames[counter] = key;
+				counter = counter + 1;
 			}
-			counter = counter + 1;
+			
 		}
 		
 		for (i = 0; i < 5; i++){
